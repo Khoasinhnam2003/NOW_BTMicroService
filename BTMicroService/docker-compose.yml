@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  # Eureka Server
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://eureka-server:8761/eureka
+    networks:
+      - microservices-network
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    networks:
+      - microservices-network
+
+  # Customer Service
+  customer-service:
+    build:
+      context: ./customer-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - customer-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://customer-db:3306/bt_customerdb?createDatabaseIfNotExists=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect
+    networks:
+      - microservices-network
+
+  # Customer Database (MySQL)
+  customer-db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=bt_customerdb
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "5435:3306"
+    volumes:
+      - customer-db-data:/var/lib/mysql
+    networks:
+      - microservices-network
+
+  # Product Service
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - product-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://product-db:3306/bt_productdb?createDatabaseIfNotExists=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect
+    networks:
+      - microservices-network
+
+  # Product Database (MySQL)
+  product-db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=bt_productdb
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "5433:3306"
+    volumes:
+      - product-db-data:/var/lib/mysql
+    networks:
+      - microservices-network
+
+  # Order Service
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - order-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://order-db:3306/bt_orderdb?createDatabaseIfNotExists=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect
+    networks:
+      - microservices-network
+
+  # Order Database (MySQL)
+  order-db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=bt_orderdb
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "5434:3306"
+    volumes:
+      - order-db-data:/var/lib/mysql
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge
+
+volumes:
+  customer-db-data:
+  product-db-data:
+  order-db-data:
