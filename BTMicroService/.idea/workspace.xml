@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51269fef-f942-4693-afec-2aeb4cffb2f7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MinhChung/DockerMinhChung.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +71,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Windows/Documents/GitHub/NOW_BTMicroService/BTMicroService",
+    "last_opened_file_path": "D:/2024-2025/HK2/NOW_KTKTPM/KienTrucCuoiKi",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -182,7 +182,8 @@
       <workItem from="1744611702140" duration="5263000" />
       <workItem from="1744628370606" duration="556000" />
       <workItem from="1744629189390" duration="1646000" />
-      <workItem from="1744631559196" duration="1060000" />
+      <workItem from="1744631559196" duration="1308000" />
+      <workItem from="1744645960672" duration="28000" />
     </task>
     <servers />
   </component>
