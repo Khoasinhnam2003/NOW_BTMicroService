@@ -11,11 +11,12 @@ spring:
               args:
                 name: productCircuitBreaker
                 fallbackUri: forward:/fallback/product
-            - name: Retry
-              args:
-                retries: 3
-                statuses: BAD_GATEWAY
-                methods: GET
+            # ✅ Tạm thời tắt Retry để test đếm thủ công
+            # - name: Retry
+            #   args:
+            #     retries: 3
+            #     statuses: BAD_GATEWAY
+            #     methods: GET
             - name: RequestSize
               args:
                 maxSize: 5000
@@ -36,7 +37,7 @@ spring:
                 methods: GET
 
         - id: customer-service
-          uri: lb://CUSTOMER-SERVICE
+          uri: lb://customer-service
           predicates:
             - Path=/customers/**
           filters:
@@ -49,3 +50,48 @@ spring:
                 retries: 3
                 statuses: BAD_GATEWAY
                 methods: GET
+
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/payments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: paymentCircuitBreaker
+                fallbackUri: forward:/fallback/payment
+            - name: Retry
+              args:
+                retries: 3
+                statuses: BAD_GATEWAY
+                methods: POST,GET
+
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/inventory/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: inventoryCircuitBreaker
+                fallbackUri: forward:/fallback/inventory
+            - name: Retry
+              args:
+                retries: 3
+                statuses: BAD_GATEWAY
+                methods: POST,GET
+
+        - id: shipping-service
+          uri: lb://shipping-service
+          predicates:
+            - Path=/shipping/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: shippingCircuitBreaker
+                fallbackUri: forward:/fallback/shipping
+            - name: Retry
+              args:
+                retries: 3
+                statuses: BAD_GATEWAY
+                methods: POST,GET

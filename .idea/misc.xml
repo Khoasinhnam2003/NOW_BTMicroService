@@ -9,6 +9,9 @@
         <option value="$PROJECT_DIR$/BTMicroService/order-service/pom.xml" />
         <option value="$PROJECT_DIR$/BTMicroService/product-service/pom.xml" />
         <option value="$PROJECT_DIR$/BTMicroService/customer-service/pom.xml" />
+        <option value="$PROJECT_DIR$/BTMicroService/shipping-service/pom.xml" />
+        <option value="$PROJECT_DIR$/BTMicroService/payment-service/pom.xml" />
+        <option value="$PROJECT_DIR$/BTMicroService/inventory-service/pom.xml" />
       </list>
     </option>
   </component>
