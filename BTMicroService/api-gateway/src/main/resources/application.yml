@@ -11,12 +11,11 @@ spring:
               args:
                 name: productCircuitBreaker
                 fallbackUri: forward:/fallback/product
-            # ✅ Tạm thời tắt Retry để test đếm thủ công
-            # - name: Retry
-            #   args:
-            #     retries: 3
-            #     statuses: BAD_GATEWAY
-            #     methods: GET
+            - name: Retry
+              args:
+                retries: 3
+                statuses: INTERNAL_SERVER_ERROR
+                methods: GET
             - name: RequestSize
               args:
                 maxSize: 5000
